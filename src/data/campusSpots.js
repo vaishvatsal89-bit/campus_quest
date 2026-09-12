@@ -21,8 +21,8 @@ export const CAMPUS_SPOTS = [
     name: 'Auditorium',
     emoji: '🎭',
     hint: 'Echoes of events and orientations',
-    lat: 28.47335490344082,
-    lng: 77.48286346277548,
+    lat: 28.4732148,
+    lng: 77.4799516,
   },
   {
     id: 'sports',
