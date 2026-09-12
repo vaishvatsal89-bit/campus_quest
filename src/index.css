@@ -696,3 +696,33 @@ input {
   border-color: rgba(110, 231, 183, 0.5);
   box-shadow: 0 0 12px rgba(110, 231, 183, 0.25);
 }
+/* --- Leaderboard game polish --- */
+
+.leaderboard-row {
+  animation: rowSlideIn 0.35s ease-out backwards;
+  transition: transform 0.15s ease;
+}
+
+.leaderboard-row:nth-child(1) { animation-delay: 0.05s; }
+.leaderboard-row:nth-child(2) { animation-delay: 0.1s; }
+.leaderboard-row:nth-child(3) { animation-delay: 0.15s; }
+.leaderboard-row:nth-child(4) { animation-delay: 0.2s; }
+.leaderboard-row:nth-child(5) { animation-delay: 0.25s; }
+
+@keyframes rowSlideIn {
+  from { opacity: 0; transform: translateX(-12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.leaderboard-row.top-rank {
+  background: linear-gradient(90deg, rgba(251, 191, 36, 0.12), var(--card));
+  border: 1px solid rgba(251, 191, 36, 0.3);
+}
+
+.leaderboard-row.top-rank .rank {
+  font-size: 1.3rem;
+}
+
+.leaderboard-row.you {
+  box-shadow: 0 0 14px rgba(251, 191, 36, 0.25);
+}
