@@ -1,9 +1,12 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CAMPUS_SPOTS } from '../data/campusSpots'
 import { useAuth } from '../context/AuthContext'
+import CampusMap from '../components/CampusMap'
 
 export default function Home() {
   const { profile } = useAuth()
+  const [view, setView] = useState('map')
 
   return (
     <div className="page">
@@ -12,20 +15,33 @@ export default function Home() {
         Hey {profile?.name ?? 'Hero'} — pick a location, walk there, then scan something real to spawn an AI quest.
       </p>
 
-      <ul className="spot-list">
-        {CAMPUS_SPOTS.map((spot) => (
-          <li key={spot.id}>
-            <Link to={`/scan/${spot.id}`} className="spot-card">
-              <span className="spot-emoji">{spot.emoji}</span>
-              <div>
-                <h2>{spot.name}</h2>
-                <p>{spot.hint}</p>
-              </div>
-              <span className="spot-cta">Scan →</span>
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <div className="map-toggle">
+        <button type="button" className={view === 'map' ? 'active' : ''} onClick={() => setView('map')}>
+          🗺️ Map
+        </button>
+        <button type="button" className={view === 'list' ? 'active' : ''} onClick={() => setView('list')}>
+          📋 List
+        </button>
+      </div>
+
+      {view === 'map' ? (
+        <CampusMap spots={CAMPUS_SPOTS} />
+      ) : (
+        <ul className="spot-list">
+          {CAMPUS_SPOTS.map((spot) => (
+            <li key={spot.id}>
+              <Link to={`/scan/${spot.id}`} className="spot-card">
+                <span className="spot-emoji">{spot.emoji}</span>
+                <div>
+                  <h2>{spot.name}</h2>
+                  <p>{spot.hint}</p>
+                </div>
+                <span className="spot-cta">Scan →</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
 
       <section className="how-it-works">
         <h2>Game loop</h2>
