@@ -30,7 +30,7 @@ export default function Welcome() {
   return (
     <div className="welcome-screen">
       <div className="welcome-card">
-        <p className="pill pill-ai">Kickr CodeMania 2026</p>
+        <p className="pill pill-ai">⚡TaskCampus</p>
         <h1>Campus Quest</h1>
         <p className="lead">
           An AI-powered scavenger hunt. Walk to a campus spot, scan the real world with your camera, and Gemini
