@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import CameraCapture from '../components/CameraCapture'
 import MissionCard from '../components/MissionCard'
@@ -7,6 +7,8 @@ import { useAuth } from '../context/AuthContext'
 import { generateMissionFromImage } from '../lib/gemini'
 import { levelFromXp, newBadgesToAward } from '../lib/game'
 import { supabase } from '../lib/supabase'
+import { getCurrentPosition, distanceInMeters } from '../lib/geo'
+
 
 export default function Scan() {
   const { spotId } = useParams()
@@ -20,6 +22,32 @@ export default function Scan() {
   const [loading, setLoading] = useState(false)
   const [completing, setCompleting] = useState(false)
   const [error, setError] = useState('')
+  const [locationStatus, setLocationStatus] = useState('checking') // 'checking' | 'near' | 'far' | 'unavailable'
+  const [distanceMeters, setDistanceMeters] = useState(null)
+  const MAX_DISTANCE_METERS = 100
+  const [overrideLocation, setOverrideLocation] = useState(false)
+
+
+  useEffect(() => {
+  let cancelled = false
+
+  async function checkLocation() {
+    try {
+      const pos = await getCurrentPosition()
+      if (cancelled) return
+      const dist = distanceInMeters(pos.lat, pos.lng, spot.lat, spot.lng)
+      setDistanceMeters(Math.round(dist))
+      setLocationStatus(dist <= MAX_DISTANCE_METERS ? 'near' : 'far')
+    } catch {
+      if (!cancelled) setLocationStatus('unavailable')
+    }
+  }
+
+  checkLocation()
+  return () => {
+    cancelled = true
+  }
+}, [spot])
 
   const handleCapture = async (dataUrl) => {
     setError('')
@@ -117,7 +145,34 @@ export default function Scan() {
 
       {error && <p className="error-text">{error}</p>}
 
-      {phase === 'camera' && <CameraCapture onCapture={handleCapture} disabled={loading} />}
+     {phase === 'camera' && locationStatus === 'checking' && (
+  <p className="subtitle">Checking your location…</p>
+)}
+
+{phase === 'camera' && locationStatus === 'far' && !overrideLocation && (
+  <div className="loading-box">
+    <p className="error-text">
+      You're about {distanceMeters}m away from {spot.name}. Walk closer to scan.
+    </p>
+    <button type="button" className="btn btn-primary" onClick={() => setOverrideLocation(true)}>
+      I'm here anyway
+    </button>
+  </div>
+)}
+
+{phase === 'camera' && locationStatus === 'unavailable' && !overrideLocation && (
+  <div className="loading-box">
+    <p className="error-text">Couldn't verify location. Enable location access, or continue anyway.</p>
+    <button type="button" className="btn btn-primary" onClick={() => setOverrideLocation(true)}>
+      Continue anyway
+    </button>
+  </div>
+)}
+
+{phase === 'camera' && (locationStatus === 'near' || overrideLocation) && (
+  <CameraCapture onCapture={handleCapture} disabled={loading} />
+)}
+
 
       {phase === 'generating' && (
         <div className="loading-box">
