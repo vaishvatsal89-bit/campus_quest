@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import ConfettiBurst from '../components/ConfettiBurst'
 import { useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { xpProgressInLevel } from '../lib/game'
@@ -34,9 +35,12 @@ export default function Profile() {
   return (
     <div className="page">
       <h1>{profile?.name ?? 'Hero'}</h1>
-      {justCompleted && (
-        <p className="success-banner">+{location.state.xp} XP — quest logged!</p>
-      )}
+           {justCompleted && (
+  <>
+    <ConfettiBurst />
+    <p className="success-banner">+{location.state.xp} XP — quest logged!</p>
+  </>
+)}
 
       <div className="profile-stats">
         <div>

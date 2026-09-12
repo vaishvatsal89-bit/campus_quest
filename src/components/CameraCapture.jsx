@@ -68,7 +68,14 @@ export default function CameraCapture({ onCapture, disabled }) {
       ) : (
         <>
           <video ref={videoRef} className="camera-video" playsInline muted />
+          <div className="scan-radar" aria-hidden="true" />
           <div className="camera-frame" aria-hidden />
+          <div className="camera-corners" aria-hidden="true">
+            <span className="corner tl" />
+            <span className="corner tr" />
+            <span className="corner bl" />
+            <span className="corner br" />
+          </div>
           <button type="button" className="btn btn-primary btn-capture" onClick={capture} disabled={!ready || disabled}>
             {disabled ? 'Generating…' : 'Scan reality'}
           </button>

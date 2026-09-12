@@ -1,8 +1,12 @@
+import { getMissionRarity } from '../lib/rarity'
+
 export default function MissionCard({ mission, aiGenerated = true, onComplete, completing }) {
   if (!mission) return null
+  const rarity = getMissionRarity(mission.xp)
 
   return (
-    <article className="mission-card">
+    <article className={`mission-card ${rarity.className}`}>
+      <div className="mission-rarity-tag">{rarity.label}</div>
       {aiGenerated && <span className="pill pill-ai">✨ AI-generated from your photo</span>}
       <h2>{mission.title}</h2>
       <p className="mission-flavor">{mission.flavor}</p>
