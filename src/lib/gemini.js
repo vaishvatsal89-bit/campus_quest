@@ -39,7 +39,7 @@ export async function generateMissionFromImage(base64Image, spotName) {
 
   const base64Data = base64Image.replace(/^data:image\/\w+;base64,/, '')
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${encodeURIComponent(key)}`
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${encodeURIComponent(key)}`
 
   const res = await fetch(url, {
     method: 'POST',
