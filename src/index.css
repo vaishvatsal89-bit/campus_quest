@@ -446,3 +446,65 @@ input {
   border-radius: 10px;
   font-weight: 700;
 }
+/* --- Quick UI polish additions --- */
+
+.mission-card {
+  animation: fadeSlideIn 0.4s ease-out;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.btn-primary,
+.btn-success {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-primary:active,
+.btn-success:active {
+  transform: scale(0.97);
+}
+
+.btn-primary:hover:not(:disabled),
+.btn-success:hover:not(:disabled) {
+  box-shadow: 0 4px 16px rgba(52, 211, 153, 0.35);
+}
+
+.spot-card {
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.spot-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.success-banner {
+  animation: fadeSlideIn 0.4s ease-out;
+}
+
+.xp-bar {
+  transition: width 0.6s ease-out;
+}
+
+.loading-box p,
+.loading-screen p {
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.error-text {
+  animation: fadeSlideIn 0.3s ease-out;
+}
