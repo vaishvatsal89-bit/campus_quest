@@ -584,15 +584,37 @@ input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 16px r
   box-shadow: 0 0 18px rgba(74, 222, 128, 0.7), inset 0 0 8px rgba(0,0,0,0.4);
   z-index: 1;
 }
+.map-marker-dot {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
 
-.map-marker-callout {
-  position: relative; margin-top: 8px;
-  font-size: 0.68rem; font-weight: 800;
+.map-marker:active .map-marker-dot {
+  transform: scale(0.88);
+  box-shadow: 0 0 28px rgba(74, 222, 128, 1), inset 0 0 8px rgba(0,0,0,0.4);
+}
+
+ .map-marker-callout {
+  position: absolute;
+  top: 54px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.65rem;
+  font-weight: 800;
   color: var(--text);
-  background: rgba(5, 7, 15, 0.92);
-  border: 1px solid rgba(74, 222, 128, 0.4);
-  padding: 3px 10px; border-radius: 8px;
-  white-space: nowrap; max-width: 110px; overflow: hidden; text-overflow: ellipsis;
+  background: rgba(5, 7, 15, 0.95);
+  border: 1px solid rgba(74, 222, 128, 0.5);
+  padding: 4px 10px;
+  border-radius: 8px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 20;
+}
+
+.map-marker:hover .map-marker-callout,
+.map-marker:focus .map-marker-callout {
+  opacity: 1;
 }
 
 .map-marker-arrow {
