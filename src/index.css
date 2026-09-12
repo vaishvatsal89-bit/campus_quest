@@ -725,4 +725,268 @@ input {
 
 .leaderboard-row.you {
   box-shadow: 0 0 14px rgba(251, 191, 36, 0.25);
+}/* ============================================
+   GAME SHELL UPGRADE — full aesthetic pass
+   ============================================ */
+
+/* Ambient animated background glow across whole app */
+body {
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(110, 231, 183, 0.08) 0%, transparent 35%),
+    radial-gradient(circle at 85% 90%, rgba(251, 191, 36, 0.06) 0%, transparent 35%);
+  pointer-events: none;
+  z-index: 0;
+  animation: ambientDrift 12s ease-in-out infinite;
+}
+
+@keyframes ambientDrift {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+/* --- Top HUD bar --- */
+.top-bar {
+  border-bottom: 1px solid rgba(110, 231, 183, 0.15);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.brand {
+  font-size: 1.3rem;
+  background: linear-gradient(135deg, var(--accent), #a7f3d0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: 0.03em;
+}
+
+.top-stats span {
+  background: var(--card);
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  box-shadow: 0 0 10px rgba(251, 191, 36, 0.15);
+}
+
+/* --- Bottom nav HUD --- */
+.bottom-nav {
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
+  border-top: 1px solid rgba(110, 231, 183, 0.15);
+}
+
+.nav-item {
+  transition: all 0.2s ease;
+}
+
+.nav-item.active {
+  box-shadow: 0 0 14px rgba(110, 231, 183, 0.3);
+  transform: translateY(-2px);
+}
+
+/* --- Welcome / title screen --- */
+.welcome-screen {
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 30%, #182544 0%, var(--bg) 70%);
+}
+
+.welcome-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 20px 30px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1.5px 1.5px at 80px 90px, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1px 1px at 150px 60px, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1.5px 1.5px at 220px 140px, rgba(255,255,255,0.4), transparent),
+    radial-gradient(1px 1px at 280px 40px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1.5px 1.5px at 320px 180px, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1px 1px at 40px 160px, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1.5px 1.5px at 180px 220px, rgba(255,255,255,0.6), transparent);
+  background-size: 400px 400px;
+  animation: starDrift 40s linear infinite;
+  opacity: 0.8;
+}
+
+@keyframes starDrift {
+  from { background-position: 0 0; }
+  to { background-position: -400px -400px; }
+}
+
+.welcome-card {
+  position: relative;
+  z-index: 1;
+  border: 1px solid rgba(110, 231, 183, 0.25);
+  box-shadow: 0 0 50px rgba(110, 231, 183, 0.12), 0 20px 60px rgba(0, 0, 0, 0.5);
+  animation: cardRise 0.5s ease-out;
+}
+
+@keyframes cardRise {
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.welcome-card h1 {
+  font-size: 2.1rem;
+  background: linear-gradient(135deg, #fff, var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: titleGlow 3s ease-in-out infinite;
+}
+
+@keyframes titleGlow {
+  0%, 100% { filter: drop-shadow(0 0 8px rgba(110, 231, 183, 0.3)); }
+  50% { filter: drop-shadow(0 0 18px rgba(110, 231, 183, 0.6)); }
+}
+
+.pill-ai {
+  animation: pillShimmer 2.5s ease-in-out infinite;
+}
+
+@keyframes pillShimmer {
+  0%, 100% { box-shadow: 0 0 6px rgba(110, 231, 183, 0.3); }
+  50% { box-shadow: 0 0 16px rgba(110, 231, 183, 0.6); }
+}
+
+/* --- Buttons: shine sweep --- */
+.btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.5s ease;
+}
+
+.btn:hover:not(:disabled)::after {
+  left: 130%;
+}
+
+/* --- Mission card: epic reveal --- */
+.mission-card {
+  position: relative;
+  border: 1px solid rgba(110, 231, 183, 0.35);
+  box-shadow: 0 0 30px rgba(110, 231, 183, 0.15), inset 0 0 20px rgba(110, 231, 183, 0.03);
+  animation: missionReveal 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes missionReveal {
+  from { opacity: 0; transform: scale(0.9) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.mission-card h2 {
+  font-size: 1.4rem;
+  animation: titlePop 0.4s ease-out 0.15s backwards;
+}
+
+@keyframes titlePop {
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.mission-body p {
+  animation: linePop 0.35s ease-out backwards;
+}
+
+.mission-body p:nth-child(1) { animation-delay: 0.25s; }
+.mission-body p:nth-child(2) { animation-delay: 0.35s; }
+.mission-body p:nth-child(3) { animation-delay: 0.45s; }
+
+@keyframes linePop {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.xp-line {
+  display: inline-block;
+  animation: xpBounce 0.5s ease-out 0.55s backwards;
+  text-shadow: 0 0 12px rgba(110, 231, 183, 0.6);
+}
+
+@keyframes xpBounce {
+  0% { opacity: 0; transform: scale(0.5); }
+  60% { opacity: 1; transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+/* --- Profile: level badge glow --- */
+.stat-value {
+  background: linear-gradient(135deg, var(--accent), #a7f3d0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: none;
+}
+
+.xp-bar-wrap {
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.5);
+}
+
+.xp-bar {
+  position: relative;
+  box-shadow: 0 0 12px rgba(110, 231, 183, 0.6);
+}
+
+.xp-bar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  animation: xpShimmer 2s linear infinite;
+}
+
+@keyframes xpShimmer {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+
+.badge-list li {
+  animation: badgePop 0.4s ease-out backwards;
+}
+
+.badge-list li:nth-child(1) { animation-delay: 0.1s; }
+.badge-list li:nth-child(2) { animation-delay: 0.2s; }
+.badge-list li:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes badgePop {
+  from { opacity: 0; transform: scale(0.7) rotate(-8deg); }
+  to { opacity: 1; transform: scale(1) rotate(0); }
+}
+
+.success-banner {
+  border: 1px solid rgba(52, 211, 153, 0.4);
+  box-shadow: 0 0 20px rgba(52, 211, 153, 0.2);
+}
+
+/* --- Spot cards: game tile feel --- */
+.spot-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.spot-emoji {
+  filter: drop-shadow(0 0 8px rgba(110, 231, 183, 0.4));
+  animation: emojiFloat 3s ease-in-out infinite;
+}
+
+@keyframes emojiFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
 }
