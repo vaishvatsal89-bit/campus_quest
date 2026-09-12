@@ -1,0 +1,41 @@
+import { Link } from 'react-router-dom'
+import { CAMPUS_SPOTS } from '../data/campusSpots'
+import { useAuth } from '../context/AuthContext'
+
+export default function Home() {
+  const { profile } = useAuth()
+
+  return (
+    <div className="page">
+      <h1>Campus map</h1>
+      <p className="subtitle">
+        Hey {profile?.name ?? 'Hero'} — pick a location, walk there, then scan something real to spawn an AI quest.
+      </p>
+
+      <ul className="spot-list">
+        {CAMPUS_SPOTS.map((spot) => (
+          <li key={spot.id}>
+            <Link to={`/scan/${spot.id}`} className="spot-card">
+              <span className="spot-emoji">{spot.emoji}</span>
+              <div>
+                <h2>{spot.name}</h2>
+                <p>{spot.hint}</p>
+              </div>
+              <span className="spot-cta">Scan →</span>
+            </Link>
+          </li>
+        ))}
+      </ul>
+
+      <section className="how-it-works">
+        <h2>Game loop</h2>
+        <ol>
+          <li>Go to a marker</li>
+          <li>Tap Scan — camera opens</li>
+          <li>Gemini vision reads your photo</li>
+          <li>Complete mission → earn XP & badges</li>
+        </ol>
+      </section>
+    </div>
+  )
+}
