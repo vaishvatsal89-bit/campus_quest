@@ -34,13 +34,8 @@ function parseMissionJson(text) {
 export async function generateMissionFromImage(base64Image, spotName) {
   const key = import.meta.env.VITE_GEMINI_KEY
   if (!key) {
-    throw new Error('Missing VITE_GEMINI_KEY in .env')
-  }
-  if (!key.startsWith('AIza')) {
-    throw new Error(
-      'Invalid Gemini key: use an API key from aistudio.google.com (starts with AIza). Update .env and restart npm run dev.',
-    )
-  }
+  throw new Error('Missing VITE_GEMINI_KEY in .env')
+}
 
   const base64Data = base64Image.replace(/^data:image\/\w+;base64,/, '')
 
