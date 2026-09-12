@@ -508,27 +508,90 @@ input {
 .error-text {
   animation: fadeSlideIn 0.3s ease-out;
 }
-/* --- Campus map view --- */
+/* --- Campus map view (game style) --- */
 
 .campus-map {
   position: relative;
   width: 100%;
   aspect-ratio: 4 / 3;
   border-radius: var(--radius);
-  background: radial-gradient(circle at 30% 20%, #1e2a4a 0%, #0b1020 70%);
-  border: 1px solid rgba(110, 231, 183, 0.2);
+  background:
+    radial-gradient(circle at 20% 15%, rgba(110, 231, 183, 0.12) 0%, transparent 45%),
+    radial-gradient(circle at 80% 85%, rgba(251, 191, 36, 0.1) 0%, transparent 45%),
+    linear-gradient(160deg, #0e1730 0%, #050810 100%);
+  border: 1px solid rgba(110, 231, 183, 0.25);
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(110, 231, 183, 0.08);
   overflow: hidden;
   margin-bottom: 20px;
 }
 
-.campus-map-grid {
+.campus-map-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.campus-map-glow-1 {
+  width: 160px;
+  height: 160px;
+  background: var(--accent);
+  top: -40px;
+  left: -40px;
+  animation: floatGlow 8s ease-in-out infinite;
+}
+
+.campus-map-glow-2 {
+  width: 140px;
+  height: 140px;
+  background: var(--accent2);
+  bottom: -30px;
+  right: -30px;
+  animation: floatGlow 10s ease-in-out infinite reverse;
+}
+
+@keyframes floatGlow {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(15px, 15px); }
+}
+
+.campus-map-stars {
   position: absolute;
   inset: 0;
-  background-image:
-    linear-gradient(rgba(110, 231, 183, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(110, 231, 183, 0.08) 1px, transparent 1px);
-  background-size: 40px 40px;
   pointer-events: none;
+}
+
+.star {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  animation: twinkle 2.4s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.15; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.6); }
+}
+
+.campus-map-paths {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.quest-path {
+  stroke: rgba(110, 231, 183, 0.45);
+  stroke-width: 0.6;
+  stroke-dasharray: 3 2;
+  animation: dashFlow 2.5s linear infinite;
+}
+
+@keyframes dashFlow {
+  to { stroke-dashoffset: -20; }
 }
 
 .map-marker {
@@ -538,43 +601,74 @@ input {
   flex-direction: column;
   align-items: center;
   text-decoration: none;
-  gap: 4px;
+  animation: markerDrop 0.5s ease-out backwards;
+}
+
+@keyframes markerDrop {
+  from { opacity: 0; transform: translate(-50%, -70%) scale(0.6); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+.map-marker-ring {
+  position: absolute;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2px solid rgba(110, 231, 183, 0.5);
+  animation: ringPulse 2s ease-out infinite;
+}
+
+@keyframes ringPulse {
+  0% { transform: scale(0.8); opacity: 0.8; }
+  100% { transform: scale(1.6); opacity: 0; }
 }
 
 .map-marker-dot {
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
-  background: var(--card);
+  background: linear-gradient(135deg, var(--card), #0e1730);
   border: 2px solid var(--accent);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
-  box-shadow: 0 0 14px rgba(110, 231, 183, 0.6);
-  animation: markerPulse 2s ease-in-out infinite;
+  font-size: 1.3rem;
+  box-shadow: 0 0 16px rgba(110, 231, 183, 0.7), inset 0 0 8px rgba(0, 0, 0, 0.4);
+  z-index: 1;
   transition: transform 0.15s ease;
 }
 
 .map-marker:active .map-marker-dot {
-  transform: scale(0.92);
+  transform: scale(0.9);
 }
 
-.map-marker-label {
-  font-size: 0.7rem;
+.map-marker-callout {
+  position: relative;
+  margin-top: 8px;
+  font-size: 0.68rem;
+  font-weight: 700;
   color: var(--text);
-  background: rgba(11, 16, 32, 0.85);
-  padding: 2px 8px;
-  border-radius: 999px;
+  background: rgba(11, 16, 32, 0.92);
+  border: 1px solid rgba(110, 231, 183, 0.3);
+  padding: 3px 9px;
+  border-radius: 8px;
   white-space: nowrap;
-  max-width: 100px;
+  max-width: 110px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-@keyframes markerPulse {
-  0%, 100% { box-shadow: 0 0 8px rgba(110, 231, 183, 0.5); }
-  50% { box-shadow: 0 0 20px rgba(110, 231, 183, 0.9); }
+.map-marker-arrow {
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 7px;
+  height: 7px;
+  background: rgba(11, 16, 32, 0.92);
+  border-left: 1px solid rgba(110, 231, 183, 0.3);
+  border-top: 1px solid rgba(110, 231, 183, 0.3);
+  rotate: 45deg;
 }
 
 .map-toggle {
@@ -593,10 +687,12 @@ input {
   font-weight: 700;
   font-size: 0.85rem;
   cursor: pointer;
+  transition: all 0.15s ease;
 }
 
 .map-toggle button.active {
-  background: var(--bg2);
+  background: linear-gradient(135deg, rgba(52, 211, 153, 0.2), rgba(5, 150, 105, 0.15));
   color: var(--accent);
-  border-color: rgba(110, 231, 183, 0.4);
+  border-color: rgba(110, 231, 183, 0.5);
+  box-shadow: 0 0 12px rgba(110, 231, 183, 0.25);
 }
